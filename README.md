@@ -10,3 +10,6 @@ Technical aspects:
  - integrate meme generator: https://api.imgflip.com/
  - find existing board to use in current project
  - check possibility to insert images to board
+
+
+![alt text](https://github.com/Kondziela/meme-retro/blob/master/memeretro.png)
