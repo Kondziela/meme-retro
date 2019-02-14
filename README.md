@@ -7,7 +7,7 @@ Join us and help to create life more Funny!!!
 
 Technical aspects:
  - choose technology
- - integrate meme generator: https://api.imgflip.com/
+ - integrate meme generator: https://developers.giphy.com/docs/
  - find existing board to use in current project
  - check possibility to insert images to board
 
