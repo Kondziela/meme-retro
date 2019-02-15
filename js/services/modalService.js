@@ -76,6 +76,13 @@ angular
           scope: scope
         });
       },
+      openGifDialog: function(scope) {
+        ngDialog.open({
+          template: 'gifSearch',
+          className: 'ngdialog-theme-plain bigDialog',
+          scope: scope
+        });
+      },
       closeAll: function() {
         ngDialog.closeAll();
       }
