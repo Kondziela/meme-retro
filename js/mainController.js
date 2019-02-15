@@ -326,24 +326,30 @@ angular
       };
 
       $scope.loadAndShowGifs = function () {
-        importExportService.getMemesUrlsByQuery(document.getElementsByName("gifname")[0].value).then(function (urlList) {
-            var rowList = [[]], currentRow = 0;
+        $scope.next = 0;
+        $scope.loadGifs();
+      };
 
-            urlList.forEach(function (item, index) {
-                if (!(index % 3)) {
-                    currentRow++;
-                    rowList[currentRow] = [];
-                }
-                rowList[currentRow].push(item);
-            });
-            $scope.gifs = rowList;
-        });
+      $scope.loadGifs = function (offset) {
+          $scope.gifs = [[]];
+          importExportService.getMemesUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(function (urlList) {
+              var rowList = [[]], currentRow = 0;
+
+              urlList.forEach(function (item, index) {
+                  if (!(index % 3)) {
+                      currentRow++;
+                      rowList[currentRow] = [];
+                  }
+                  rowList[currentRow].push(item);
+              });
+              $scope.gifs = rowList;
+              $scope.$apply();
+          });
       };
 
       $scope.findNextGifs = function() {
         $scope.next = $scope.next + 1;
-        console.log($scope.next);
-        // TODO[AKO]: call load with offset
+        $scope.loadGifs($scope.next * 9);
       };
 
       /* globals Clipboard */
