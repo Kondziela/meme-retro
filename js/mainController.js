@@ -255,21 +255,23 @@ angular
         modalService.closeAll();
       };
 
+	  $scope.clearVariable = function() {
+        $scope.gifs = [[]];
+      };
+
       $scope.deleteGif = function(message) {
         message.gif_url = "";
         modalService.closeAll();
       };
 
       $scope.addGif = function(message) {
-        message.gif_url = $scope.gif;
-        $rootScope.$broadcast('imageAdd');
-        modalService.closeAll();
+if ($scope.gif) {        message.gif_url = $scope.gif;
+        $rootScope.$broadcast('imageAdd');modalService.closeAll();}
       };
 	  
       $scope.addMeme = function(message) {
-        message.gif_url = $scope.gif;
-        $rootScope.$broadcast('imageAdd');
-        modalService.closeAll();
+        if ($scope.gif) {message.gif_url = importExportService.getMemeUrl(document.getElementsByName("memeTop")[0].value, document.getElementsByName("memeBottom")[0].value,$scope.gif);
+        $rootScope.$broadcast('imageAdd');modalService.closeAll();}
       };
 
       function addMessageCallback(message) {
@@ -346,8 +348,12 @@ angular
         $scope.loadGifs();
       };
 
+      $scope.loadAndShowMemes = function () {
+        $scope.next = 0;
+        $scope.loadMemes();
+      };
+
       $scope.loadGifs = function (offset) {
-          $scope.gifs = [[]];
           importExportService.getGifsUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(function (urlList) {
               var rowList = [], currentRow = 0;
 
@@ -362,18 +368,39 @@ angular
               $scope.$apply();
           });
       };
-	  
+
+      $scope.loadMemes = function (offset) {
+          importExportService.getStaticGifsUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(function (urlList) {
+              var rowList = [], currentRow = 0;
+
+              urlList.forEach(function (item, index) {
+                  if (!(index % 3)) {
+                      currentRow++;
+                      rowList[currentRow] = [];
+                  }
+                  rowList[currentRow].push(item);
+              });
+              $scope.gifs = rowList;
+              $scope.$apply();
+          });
+      };
+
 	  $scope.selectGif = function(gif) {
 		$scope.gif = gif;
 	  };
 	  
 	  $scope.selectMeme = function(gif) {
 		$scope.gif = gif;
-	  }; 
+	  };
 
       $scope.findNextGifs = function() {
         $scope.next = $scope.next + 1;
         $scope.loadGifs($scope.next * 9);
+      };
+
+      $scope.findNextMemes = function() {
+        $scope.next = $scope.next + 1;
+        $scope.loadMemes($scope.next * 9);
       };
 
       /* globals Clipboard */
