@@ -31,7 +31,7 @@
               <div class="front" ng-class="{'filter': isCensored(message, boardObject.text_editing_is_private)}">
                   <div class="message-body">
                       <div class="text" ng-bind-html="message.text | linky:'_blank'"></div>
-					  <img src="{{message.gif_url}}" ng-model="message.gif_url" aria-label="Message text entry" ng-change="messages.$save(message)" class="gif-body-link"/>
+					  <img src="{{message.gif_url}}" ng-hide="!message.gif_url" ng-model="message.gif_url" aria-label="Message text entry" ng-change="messages.$save(message)" class="gif-body-link" style="margin-left: auto; margin-right: auto; display: block; height: 200px; width: auto;"/>
                       <a href="javascript:void(0)" class="pencil message-body-link" ng-click="isEditing = true; utils.focusElement(message.$id); updateEditingMessage(message, true);" aria-label="Edit message"><i class="fa fa-pencil"></i></a>
                   </div>
                   <div class="votes">
@@ -66,7 +66,7 @@
                 {{ message.text }}
               </div>
 			  <div class="placeholder">
-			    <img src="{{message.gif_url}}" ng-model="message.gif_url" aria-label="Message text entry" ng-change="messages.$save(message)" class="gif-body-link"/>
+			    <img src="{{message.gif_url}}" ng-hide="!message.gif_url" ng-model="message.gif_url" aria-label="Message text entry" ng-change="messages.$save(message)" class="gif-body-link"style="height: 150px; width: auto;"/>
 			  </div>
             </div>
           </li>
