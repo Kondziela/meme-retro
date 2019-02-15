@@ -25,6 +25,13 @@ angular
           scope: scope
         });
       },
+      openDeleteEmbed: function(scope) {
+        ngDialog.open({
+          template: 'deleteEmbed',
+          className: 'ngdialog-theme-plain',
+          scope: scope
+        });
+      },
       openDeleteColumn: function(scope) {
         ngDialog.open({
           template: 'deleteColumn',
@@ -79,6 +86,13 @@ angular
       openGifDialog: function(scope) {
         ngDialog.open({
           template: 'gifSearch',
+          className: 'ngdialog-theme-plain bigDialog',
+          scope: scope
+        });
+      },
+      openMemeDialog: function(scope) {
+        ngDialog.open({
+          template: 'memeSearch',
           className: 'ngdialog-theme-plain bigDialog',
           scope: scope
         });
