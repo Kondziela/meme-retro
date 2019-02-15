@@ -256,6 +256,11 @@ angular
         modalService.closeAll();
       };
 
+      $scope.addGif = function(message) {
+        message.gif_url = "https://media.giphy.com/media/l3q2yYNt8DXoyKRdm/giphy.gif";
+        modalService.closeAll();
+      };
+
       function addMessageCallback(message) {
         var id = message.key;
         angular.element($('#' + id)).scope().isEditing = true;
@@ -271,7 +276,7 @@ angular
             text: '',
             creating: true,
             user_id: $scope.userUid,
-            gir_url: '',
+            gif_url: '',
             type: {
               id: type.id
             },
@@ -333,7 +338,7 @@ angular
       $scope.loadGifs = function (offset) {
           $scope.gifs = [[]];
           importExportService.getMemesUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(function (urlList) {
-              var rowList = [[]], currentRow = 0;
+              var rowList = [], currentRow = 0;
 
               urlList.forEach(function (item, index) {
                   if (!(index % 3)) {
