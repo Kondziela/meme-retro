@@ -346,7 +346,7 @@ angular
 
       $scope.loadGifs = function (offset) {
           $scope.gifs = [[]];
-          importExportService.getMemesUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(function (urlList) {
+          importExportService.getGifsUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(function (urlList) {
               var rowList = [], currentRow = 0;
 
               urlList.forEach(function (item, index) {
