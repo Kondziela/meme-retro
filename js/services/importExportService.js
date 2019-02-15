@@ -17,8 +17,8 @@ angular
                         $http({
                             method: 'GET',
                             url: 'https://api.giphy.com/v1/gifs/search?api_key=orXMkeCrlZ1aZZLEVLWCjY7XsUgYgJUe&limit=' + limit + '&q=' + name + '&offset=' + offset
-                        })then(function successCallback(response) {
-                            resolve(response.data.data.map(gifObj -> gifObj.images.downsized.url));
+                        }).then(function successCallback(response) {
+                            resolve(response.data.data.map(gifObj => gifObj.images.downsized.url));
                         }, function errorCallback(response) {
                             console.log('ERROR: '+response);
                             reject();
