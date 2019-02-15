@@ -126,8 +126,8 @@
 	</table>
 	<table>
 		<tbody>
-        <tr ng-repeat="gifRow in gifs">
-            <td ng-repeat="gif in gifRow"><IMG width="200px" SRC={{gif}}></td>
+        <tr ng-repeat="gifRow in gifs track by $index">
+            <td ng-repeat="gif in gifRow track by $index"><IMG height="100px" SRC={{gif}}></td>
         </tr>
 		</tbody>
 	</table>

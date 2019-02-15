@@ -326,8 +326,13 @@ angular
 
         $scope.loadAndShowGifs = function () {
 
-            $scope.gifs = [["https://memegen.link/custom/my_pretty/background.jpg?alt=https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Gatto_europeo4.jpg/250px-Gatto_europeo4.jpg"]];
-                console.log(importExportService.getMemesUrlsByQuery($scope.gifname));
+            $scope.gifs = //[["https://memegen.link/custom/my_pretty/background.jpg?alt=https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Gatto_europeo4.jpg/250px-Gatto_europeo4.jpg"]];
+                [
+                    ["https://memegen.link/custom/my_pretty/background.jpg?alt=https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Gatto_europeo4.jpg/250px-Gatto_europeo4.jpg","https://memegen.link/custom/my_pretty/background.jpg?alt=https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Gatto_europeo4.jpg/250px-Gatto_europeo4.jpg","https://memegen.link/custom/my_pretty/background.jpg?alt=https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Gatto_europeo4.jpg/250px-Gatto_europeo4.jpg"],
+                ["https://memegen.link/custom/my_pretty/background.jpg?alt=https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Gatto_europeo4.jpg/250px-Gatto_europeo4.jpg","https://memegen.link/custom/my_pretty/background.jpg?alt=https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Gatto_europeo4.jpg/250px-Gatto_europeo4.jpg","https://memegen.link/custom/my_pretty/background.jpg?alt=https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Gatto_europeo4.jpg/250px-Gatto_europeo4.jpg"],
+                ["https://memegen.link/custom/my_pretty/background.jpg?alt=https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Gatto_europeo4.jpg/250px-Gatto_europeo4.jpg","https://memegen.link/custom/my_pretty/background.jpg?alt=https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Gatto_europeo4.jpg/250px-Gatto_europeo4.jpg","https://memegen.link/custom/my_pretty/background.jpg?alt=https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Gatto_europeo4.jpg/250px-Gatto_europeo4.jpg"]
+            ];
+            importExportService.getMemesUrlsByQuery($scope.gifname).then(function (a){ console.log(a);});
         };
 
       /* globals Clipboard */

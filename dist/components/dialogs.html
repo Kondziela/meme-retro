@@ -109,8 +109,6 @@
         <label for="toggle-private">Private writing during card editing</label>
     </div>
 </script>
-//TODO GIF MEME
-//To use it add a new ngDialog for gifSearch, className: 'ngdialog-theme-plain bigDialog'
 <script type="text/ng-template" id="gifSearch">
     <h1>Search Gif</h1>
     <span>
@@ -122,14 +120,14 @@
 			<td/>
 			<td align="right"><input class="filter-message" placeholder="Gif search term" name="gifname" type="text"
                                      width="100%" ng-model="gifname"/></td>
-			<td align="right"><input name="search" type="submit" value="Search" class="button"/></td>
+			<td align="right"><input name="search" type="submit" value="Search" class="button" ng-click="loadAndShowGifs()"/></td>
 		</tr>
 		</tbody>
 	</table>
 	<table>
 		<tbody>
-        <tr ng-repeat="gifRow in gifs">
-            <td ng-repeat="gif in gifRow"><IMG width="200px" SRC={{gif}}></td>
+        <tr ng-repeat="gifRow in gifs track by $index">
+            <td ng-repeat="gif in gifRow track by $index"><IMG height="100px" SRC={{gif}}></td>
         </tr>
 		</tbody>
 	</table>
