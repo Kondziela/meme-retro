@@ -57,6 +57,7 @@
 							<textarea data-emoji-picker="true" ng-model="message.text" ng-change="messages.$save(message)" aria-label="Message text entry"></textarea>
 							<button ng-click="isEditing = false;saveMessage(message); updateEditingMessage(message, false);">DONE</button>
 							<a class="gif-link message-body-link" href="javascript:void(0)" ng-click="modalService.openGifDialog(this)" aria-label="Add gif">GIF</a>
+							<a class="meme-link message-body-link" href="javascript:void(0)" ng-click="modalService.openMemeDialog(this)" aria-label="Add meme">MEME</a>
 							<a class="delete-link message-body-link" href="javascript:void(0)" ng-click="modalService.openDeleteCard(this)" aria-label="Delete message"><i class="fa fa-trash"></i></a>
                       </div>
                   </div>
