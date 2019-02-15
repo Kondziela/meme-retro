@@ -13,12 +13,17 @@ angular
                     if (!offset) {
                         offset = 0;
                     }
+                    if (!limit) {
+                        limit = 9;
+                    }
                     return new Promise(function(resolve,reject) {
                         $http({
                             method: 'GET',
                             url: 'https://api.giphy.com/v1/gifs/search?api_key=orXMkeCrlZ1aZZLEVLWCjY7XsUgYgJUe&limit=' + limit + '&q=' + name + '&offset=' + offset
                         }).then(function successCallback(response) {
-                            resolve(response.data.data.map(gifObj => gifObj.images.downsized.url));
+                            resolve(response.data.data.map(function(gifObj) {
+                                return gifObj.images.downsized.url;
+                            }));
                         }, function errorCallback(response) {
                             console.log('ERROR: '+response);
                             reject();
