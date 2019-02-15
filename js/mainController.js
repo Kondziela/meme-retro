@@ -265,14 +265,17 @@ angular
       };
 
       $scope.addGif = function(message) {
-        message.gif_url = $scope.gif;
-        modalService.closeAll();
+	    if ($scope.gif) {
+          message.gif_url = $scope.gif;
+          modalService.closeAll();
+		}
       };
 	  
       $scope.addMeme = function(message) {
-		$scope.gifs = [[]];
-        message.gif_url = importExportService.getMemeUrl(document.getElementsByName("memeTop")[0].value, document.getElementsByName("memeBottom")[0].value, $scope.gif);
-        modalService.closeAll();
+	    if ($scope.gif) {
+			message.gif_url = importExportService.getMemeUrl(document.getElementsByName("memeTop")[0].value, document.getElementsByName("memeBottom")[0].value, $scope.gif);
+			modalService.closeAll();
+		}
       };
 
       function addMessageCallback(message) {
