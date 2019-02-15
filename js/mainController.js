@@ -27,6 +27,7 @@ angular
       FEATURES,
       importExportService
     ) {
+      $scope.next = 0;
       $scope.loading = true;
       $scope.messageTypes = utils.messageTypes;
       $scope.utils = utils;
@@ -254,9 +255,9 @@ angular
 
         modalService.closeAll();
       };
-	  
+
       $scope.addGif = function(message) {
-        message.gif_url = "https://media.giphy.com/media/l3q2yYNt8DXoyKRdm/giphy.gif";		
+        message.gif_url = "https://media.giphy.com/media/l3q2yYNt8DXoyKRdm/giphy.gif";
         modalService.closeAll();
       };
 	  
@@ -335,18 +336,30 @@ angular
       };
 
       $scope.loadAndShowGifs = function () {
-        importExportService.getMemesUrlsByQuery(document.getElementsByName("gifname")[0].value).then(function (urlList) {
-            var rowList = [[]], currentRow = 0;
+        $scope.next = 0;
+        $scope.loadGifs();
+      };
 
-            urlList.forEach(function (item, index) {
-                if (!(index % 3)) {
-                    currentRow++;
-                    rowList[currentRow] = [];
-                }
-                rowList[currentRow].push(item);
-            });
-            $scope.gifs = rowList;
-        });
+      $scope.loadGifs = function (offset) {
+          $scope.gifs = [[]];
+          importExportService.getMemesUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(function (urlList) {
+              var rowList = [], currentRow = 0;
+
+              urlList.forEach(function (item, index) {
+                  if (!(index % 3)) {
+                      currentRow++;
+                      rowList[currentRow] = [];
+                  }
+                  rowList[currentRow].push(item);
+              });
+              $scope.gifs = rowList;
+              $scope.$apply();
+          });
+      };
+
+      $scope.findNextGifs = function() {
+        $scope.next = $scope.next + 1;
+        $scope.loadGifs($scope.next * 9);
       };
 
       /* globals Clipboard */
