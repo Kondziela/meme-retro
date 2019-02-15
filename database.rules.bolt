@@ -18,6 +18,7 @@ type Message {
   creating: Boolean,
   user_id: UserId,
   type: Object,
+  gif_url: String,
   date: String | Number,
   date_created: String | Number,
   votes: Number | Null
