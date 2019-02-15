@@ -261,12 +261,12 @@ angular
       };
 
       $scope.addGif = function(message) {
-        message.gif_url = $scope.gif
+        message.gif_url = $scope.gif;
         modalService.closeAll();
       };
 	  
       $scope.addMeme = function(message) {
-        message.gif_url = $scope.gif
+        message.gif_url = $scope.gif;
         modalService.closeAll();
       };
 
