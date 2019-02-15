@@ -7,8 +7,6 @@ angular
             function (firebaseService, modalService, CsvService, $filter, $http) {
                 var importExportService = {};
 
-				//TODO MEME GIF
-
                 importExportService.getStaticGifsUrlsByQuery = function (name, limit, offset) {
                     if (!offset) {
                         offset = 0;
