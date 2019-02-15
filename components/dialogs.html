@@ -126,6 +126,21 @@
 	</table>
 	<table>
 		<tbody>
+		<tr>
+			<td><IMG width="200px" SRC="https://media.giphy.com/media/l3q2yYNt8DXoyKRdm/giphy.gif"></td>
+			<td><IMG width="200px" SRC="https://media.giphy.com/media/l3q2yYNt8DXoyKRdm/giphy.gif"></td>
+			<td><IMG width="200px" SRC="https://media.giphy.com/media/l3q2yYNt8DXoyKRdm/giphy.gif"></td>
+		</tr>
+		<tr>
+			<td><IMG width="200px" SRC="https://media.giphy.com/media/l3q2yYNt8DXoyKRdm/giphy.gif"></td>
+			<td><IMG width="200px" SRC="https://media.giphy.com/media/l3q2yYNt8DXoyKRdm/giphy.gif"></td>
+			<td><IMG width="200px" SRC="https://media.giphy.com/media/l3q2yYNt8DXoyKRdm/giphy.gif"></td>
+		</tr>
+		<tr>
+			<td><IMG width="200px" SRC="https://media.giphy.com/media/l3q2yYNt8DXoyKRdm/giphy.gif"></td>
+			<td><IMG width="200px" SRC="https://media.giphy.com/media/l3q2yYNt8DXoyKRdm/giphy.gif"></td>
+			<td><IMG width="200px" SRC="https://media.giphy.com/media/l3q2yYNt8DXoyKRdm/giphy.gif"></td>
+		</tr>
         <tr ng-repeat="gifRow in gifs track by $index">
             <td ng-repeat="gif in gifRow track by $index"><IMG height="100px" SRC={{gif}}></td>
         </tr>
@@ -136,7 +151,7 @@
 		<tr>
 			<td/>
 			<td align="right"><a ng-click="modalService.closeAll();">Cancel</a></td>
-			<td align="right"><a ng-click="modalService.addGif();">Submit</a></td>
+			<td align="right"><button class="button" ng-click="addGif(message)">Add Gif</button></td>
 		</tr>
 		</tbody>
 	</table>
