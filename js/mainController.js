@@ -25,6 +25,7 @@ angular
       modalService,
       FEATURES
     ) {
+      $scope.next = 0;
       $scope.loading = true;
       $scope.messageTypes = utils.messageTypes;
       $scope.utils = utils;
@@ -320,6 +321,12 @@ angular
         $scope.import.data = [];
         $scope.import.mapping = [];
         $scope.import.error = '';
+      };
+
+      $scope.findNextGifs = function() {
+        $scope.next = $scope.next + 1;
+        console.log($scope.next);
+        // TODO[AKO]: call load with offset
       };
 
       /* globals Clipboard */
