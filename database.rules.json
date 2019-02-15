@@ -41,6 +41,9 @@
           "text": {
             ".validate": "newData.isString()"
           },
+          "gif_url": {
+            ".validate": "newData.isString()"
+          },
           "creating": {
             ".validate": "newData.isBoolean()"
           },

@@ -268,6 +268,7 @@ angular
             text: '',
             creating: true,
             user_id: $scope.userUid,
+            gir_url: '',
             type: {
               id: type.id
             },
