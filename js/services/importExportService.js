@@ -17,12 +17,14 @@ angular
                         method: 'GET',
                         url: 'https://api.giphy.com/v1/gifs/search?api_key=orXMkeCrlZ1aZZLEVLWCjY7XsUgYgJUe&limit=10&q=' + name + '&offset=' + offset
                     }).then(function successCallback(response) {
-                        return response.data.data.map(function (gifObj) {
+                        var gifs = response.data.data.map(function (gifObj) {
                             return gifObj.images.downsized.url;
                         });
+                        gifs = [[],[],[]];
+
                     }, function errorCallback(response) {
                         console.log('ERROR: '+response);
-                        return [];
+                        return [[],[],[]];
                     });
                 };
 

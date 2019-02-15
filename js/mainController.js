@@ -14,6 +14,7 @@ angular
     'FirebaseService',
     'ModalService',
     'FEATURES',
+    'ImportExportService',
     function(
       $scope,
       $filter,
@@ -23,7 +24,8 @@ angular
       $rootScope,
       firebaseService,
       modalService,
-      FEATURES
+      FEATURES,
+      importExportService
     ) {
       $scope.loading = true;
       $scope.messageTypes = utils.messageTypes;
@@ -322,6 +324,12 @@ angular
         $scope.import.error = '';
       };
 
+        $scope.loadAndShowGifs = function () {
+
+            $scope.gifs = [["https://memegen.link/custom/my_pretty/background.jpg?alt=https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Gatto_europeo4.jpg/250px-Gatto_europeo4.jpg"]];
+                console.log(importExportService.getMemesUrlsByQuery($scope.gifname));
+        };
+
       /* globals Clipboard */
       new Clipboard('.import-btn');
 
@@ -331,4 +339,5 @@ angular
         auth.logUser($scope.userId, getBoardAndMessages);
       });
     }
+
   ]);
