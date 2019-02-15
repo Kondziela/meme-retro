@@ -83,6 +83,13 @@ angular
           scope: scope
         });
       },
+      openMemeDialog: function(scope) {
+        ngDialog.open({
+          template: 'memeSearch',
+          className: 'ngdialog-theme-plain bigDialog',
+          scope: scope
+        });
+      },
       closeAll: function() {
         ngDialog.closeAll();
       }

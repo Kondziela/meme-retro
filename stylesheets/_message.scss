@@ -77,7 +77,6 @@
   .gif-body-link {
     position: relative;
     top: 0.4em;
-    left: 0.5em;
     right: 0.5em;
   }
 
@@ -90,7 +89,16 @@
   }
 
   .gif-link {
-    top: 26px;
+    top: 30px;
+    right: 12px;
+    bottom: 12px;
+    left: auto;
+    font-size: 1em;
+    color: black;
+  }
+
+  .meme-link {
+    top: 50px;
     right: 12px;
     bottom: 12px;
     left: auto;
