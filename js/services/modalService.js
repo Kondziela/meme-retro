@@ -25,6 +25,13 @@ angular
           scope: scope
         });
       },
+      openDeleteEmbed: function(scope) {
+        ngDialog.open({
+          template: 'deleteEmbed',
+          className: 'ngdialog-theme-plain',
+          scope: scope
+        });
+      },
       openDeleteColumn: function(scope) {
         ngDialog.open({
           template: 'deleteColumn',

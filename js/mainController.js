@@ -252,17 +252,21 @@ angular
 
       $scope.deleteMessage = function(message) {
         $scope.messages.$remove(message);
+        modalService.closeAll();
+      };
 
+      $scope.deleteGif = function(message) {
+        message.gif_url = "";
         modalService.closeAll();
       };
 
       $scope.addGif = function(message) {
-        message.gif_url = "https://media.giphy.com/media/l3q2yYNt8DXoyKRdm/giphy.gif";
+        message.gif_url = $scope.gif
         modalService.closeAll();
       };
 	  
       $scope.addMeme = function(message) {
-        message.gif_url = "https://memegen.link/custom/my_pretty/background.jpg?alt=http://www.gstatic.com/webp/gallery/1.jpg";
+        message.gif_url = $scope.gif
         modalService.closeAll();
       };
 
@@ -356,6 +360,14 @@ angular
               $scope.$apply();
           });
       };
+	  
+	  $scope.selectGif = function(gif) {
+		$scope.gif = gif;
+	  };
+	  
+	  $scope.selectMeme = function(gif) {
+		$scope.gif = gif;
+	  }; 
 
       $scope.findNextGifs = function() {
         $scope.next = $scope.next + 1;
