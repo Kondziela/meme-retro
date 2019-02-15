@@ -157,3 +157,55 @@
 	</table>
   </span>
 </script>
+<script type="text/ng-template" id="memeSearch">
+    <h1>Search Meme</h1>
+    <span>
+	<table>
+		<tbody>
+		<tr>
+			<td align="right"><input class="filter-message" placeholder="Gif search term" name="gifname" type="text"
+                                     width="100%" ng-model="gifname"/></td>
+			<td align="right"><input name="search" type="submit" value="Search" class="button" ng-click="loadAndShowGifs()"/></td>
+		</tr>
+		<tr>
+			<td align="right"><input class="filter-message" placeholder="Link to base image" name="memename" type="text" width="100%" ng-model="memename"/></td>
+		</tr>
+		<tr>
+			<td align="right"><input class="filter-message" placeholder="Top text" name="memename" type="text" width="100%" ng-model="memename"/></td>
+			<td align="right"><input class="filter-message" placeholder="Bottom text" name="memename" type="text" width="100%" ng-model="memename"/></td>
+		</tr>
+		</tbody>
+	</table>
+	<table>
+		<tbody>
+		<tr>
+			<td><IMG width="200px" SRC="https://memegen.link/custom/my_pretty/background.jpg?alt=http://www.gstatic.com/webp/gallery/1.jpg"></td>
+			<td><IMG width="200px" SRC="https://memegen.link/custom/my_pretty/background.jpg?alt=http://www.gstatic.com/webp/gallery/1.jpg"></td>
+			<td><IMG width="200px" SRC="https://memegen.link/custom/my_pretty/background.jpg?alt=http://www.gstatic.com/webp/gallery/1.jpg"></td>
+		</tr>
+		<tr>
+			<td><IMG width="200px" SRC="https://memegen.link/custom/my_pretty/background.jpg?alt=http://www.gstatic.com/webp/gallery/1.jpg"></td>
+			<td><IMG width="200px" SRC="https://memegen.link/custom/my_pretty/background.jpg?alt=http://www.gstatic.com/webp/gallery/1.jpg"></td>
+			<td><IMG width="200px" SRC="https://memegen.link/custom/my_pretty/background.jpg?alt=http://www.gstatic.com/webp/gallery/1.jpg"></td>
+		</tr>
+		<tr>
+			<td><IMG width="200px" SRC="https://memegen.link/custom/my_pretty/background.jpg?alt=http://www.gstatic.com/webp/gallery/1.jpg"></td>
+			<td><IMG width="200px" SRC="https://memegen.link/custom/my_pretty/background.jpg?alt=http://www.gstatic.com/webp/gallery/1.jpg"></td>
+			<td><IMG width="200px" SRC="https://memegen.link/custom/my_pretty/background.jpg?alt=http://www.gstatic.com/webp/gallery/1.jpg"></td>
+		</tr>
+        <tr ng-repeat="gifRow in gifs track by $index">
+            <td ng-repeat="gif in gifRow track by $index"><IMG height="100px" SRC={{gif}}></td>
+        </tr>
+		</tbody>
+	</table>
+	<table>
+		<tbody>
+		<tr>
+			<td/>
+			<td align="right"><a ng-click="modalService.closeAll();">Cancel</a></td>
+			<td align="right"><button class="button" ng-click="addMeme(message)">Add Meme</button></td>
+		</tr>
+		</tbody>
+	</table>
+  </span>
+</script>

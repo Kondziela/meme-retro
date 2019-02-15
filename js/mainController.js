@@ -259,6 +259,11 @@ angular
         message.gif_url = "https://media.giphy.com/media/l3q2yYNt8DXoyKRdm/giphy.gif";		
         modalService.closeAll();
       };
+	  
+      $scope.addMeme = function(message) {
+        message.gif_url = "https://memegen.link/custom/my_pretty/background.jpg?alt=http://www.gstatic.com/webp/gallery/1.jpg";
+        modalService.closeAll();
+      };
 
       function addMessageCallback(message) {
         var id = message.key;
