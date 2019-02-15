@@ -262,11 +262,13 @@ angular
 
       $scope.addGif = function(message) {
         message.gif_url = $scope.gif;
+        $rootScope.$broadcast('imageAdd');
         modalService.closeAll();
       };
 	  
       $scope.addMeme = function(message) {
         message.gif_url = $scope.gif;
+        $rootScope.$broadcast('imageAdd');
         modalService.closeAll();
       };
 

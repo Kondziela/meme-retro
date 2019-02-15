@@ -3,10 +3,11 @@
 angular.module('fireideaz').controller('MessageCtrl', [
   '$scope',
   '$window',
+  '$rootScope',
   'FirebaseService',
   'ModalService',
   'VoteService',
-  function($scope, $window, firebaseService, modalService, voteService) {
+  function($scope, $window, $rootScope, firebaseService, modalService, voteService) {
     function mergeCardVotes(first, second) {
       voteService.mergeMessages($scope.userId, first, second);
     }
@@ -21,6 +22,11 @@ angular.module('fireideaz').controller('MessageCtrl', [
         modalService.openMergeCards($scope);
       }
     };
+
+      $scope.$on('imageAdd', function () {
+          $scope.isEditing = false;
+          $scope.$apply();
+      });
 
     $scope.dropped = function(dragEl, dropEl) {
       var drag = $('#' + dragEl);
