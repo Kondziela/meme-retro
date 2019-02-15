@@ -21,7 +21,7 @@ angular
       openDeleteCard: function(scope) {
         ngDialog.open({
           template: 'deleteCard',
-          className: 'ngdialog-theme-plain',
+          className: 'ngdialog-theme-plain bigDialog',
           scope: scope
         });
       },
