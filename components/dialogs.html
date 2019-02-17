@@ -133,7 +133,7 @@
 	<table>
 		<tbody>
         <tr ng-repeat="gifRow in gifs track by $index">
-            <td ng-repeat="gif in gifRow track by $index"><img height="100px" src={{gif}} ng-click="selectGif(gif)"></td>
+            <td ng-repeat="gif in gifRow track by $index"><img height="100px" src={{gif.gif}} class={{gif.class}} ng-click="selectMeme(gif)"></td>
         </tr>
 		</tbody>
 	</table>
@@ -168,7 +168,7 @@
 	<table>
 		<tbody>
         <tr ng-repeat="gifRow in gifs track by $index">
-            <td ng-repeat="gif in gifRow track by $index"><img height="100px" src={{gif}} ng-click="selectMeme(gif)"></td>
+            <td ng-repeat="gif in gifRow track by $index"><img height="100px" src={{gif.gif}} class={{gif.class}} ng-click="selectMeme(gif)"></td>
         </tr>
 		</tbody>
 	</table>

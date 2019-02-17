@@ -362,7 +362,7 @@ if ($scope.gif) {        message.gif_url = $scope.gif;
                       currentRow++;
                       rowList[currentRow] = [];
                   }
-                  rowList[currentRow].push(item);
+                  rowList[currentRow].push({gif: item, class: ''});
               });
               $scope.gifs = rowList;
               $scope.$apply();
@@ -378,7 +378,7 @@ if ($scope.gif) {        message.gif_url = $scope.gif;
                       currentRow++;
                       rowList[currentRow] = [];
                   }
-                  rowList[currentRow].push(item);
+                  rowList[currentRow].push({gif: item, class: ''});
               });
               $scope.gifs = rowList;
               $scope.$apply();
@@ -386,11 +386,15 @@ if ($scope.gif) {        message.gif_url = $scope.gif;
       };
 
 	  $scope.selectGif = function(gif) {
-		$scope.gif = gif;
+	      $scope.gifs.forEach(function (gifArr) { gifArr.forEach(function (gif) { gif.class = "";})});
+          gif.class = "with-border selected our-css";
+	      $scope.gif = gif.gif;
 	  };
 	  
 	  $scope.selectMeme = function(gif) {
-		$scope.gif = gif;
+          $scope.gifs.forEach(function (gifArr) { gifArr.forEach(function (gif) { gif.class = "";})});
+          gif.class = "with-border selected our-css";
+          $scope.gif = gif.gif;
 	  };
 
       $scope.findNextGifs = function() {
