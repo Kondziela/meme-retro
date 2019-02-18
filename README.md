@@ -5,6 +5,14 @@ Current phase: Creation Conception & Design
 
 Join us and help to create life more Funny!!!
 
+How to start:
+ - install NodeJS
+ - install npm
+ - install gulp https://gulpjs.com/
+ - call: npm install 
+ - run: gulp
+ - open: localhost:4000
+
 Technical aspects:
  - choose technology
  - integrate meme generator: https://developers.giphy.com/docs/
