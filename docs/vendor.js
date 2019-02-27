@@ -943,7 +943,7 @@ var config = {
     projectId: "fun-retro-e062a",
     storageBucket: "fun-retro-e062a.appspot.com",
     messagingSenderId: "32518919659"
-  };
+};
 
 firebase.initializeApp(config);
 

@@ -31,6 +31,7 @@
               <div class="front" ng-class="{'filter': isCensored(message, boardObject.text_editing_is_private)}">
                   <div class="message-body">
                       <div class="text" ng-bind-html="message.text | linky:'_blank'"></div>
+					  <img src="{{message.gif_url}}" ng-hide="!message.gif_url" ng-model="message.gif_url" aria-label="Message text entry" ng-change="messages.$save(message)" class="gif-body-link" style="margin-left: auto; margin-right: auto; display: block; height: 200px; width: auto;"/>
                       <a href="javascript:void(0)" class="pencil message-body-link" ng-click="isEditing = true; utils.focusElement(message.$id); updateEditingMessage(message, true);" aria-label="Edit message"><i class="fa fa-pencil"></i></a>
                   </div>
                   <div class="votes">
@@ -53,16 +54,21 @@
               <div class="back">
                   <div class="message-body">
                       <div class="editing">
-                          <textarea data-emoji-picker="true" ng-model="message.text" ng-change="messages.$save(message)" aria-label="Message text entry"></textarea>
-                          <button ng-click="isEditing = false;saveMessage(message); updateEditingMessage(message, false);">DONE</button>
-                          <a class="gif-link message-body-link" href="javascript:void(0)" ng-click="modalService.openGifDialog(this)" aria-label="Add gif">GIF</a>
-                          <a class="delete-link message-body-link" href="javascript:void(0)" ng-click="modalService.openDeleteCard(this)" aria-label="Delete message"><i class="fa fa-trash"></i></a>
+							<textarea data-emoji-picker="true" ng-model="message.text" ng-change="messages.$save(message)" aria-label="Message text entry"></textarea>
+							<button ng-click="isEditing = false;saveMessage(message); updateEditingMessage(message, false);">DONE</button>
+							<a class="gif-link message-body-link" href="javascript:void(0)" ng-click="modalService.openGifDialog(this);clearVariable()" aria-label="Add gif">GIF</a>
+							<a class="meme-link message-body-link" href="javascript:void(0)" ng-click="modalService.openMemeDialog(this);clearVariable()" aria-label="Add meme">MEME</a>
+							<a class="delete-meme message-body-link" href="javascript:void(0)" ng-click="modalService.openDeleteEmbed(this)" aria-label="Delete MEME/GIF"><i class="fa fa-camera-retro"></i></a>
+							<a class="delete-link message-body-link" href="javascript:void(0)" ng-click="modalService.openDeleteCard(this)" aria-label="Delete message"><i class="fa fa-trash"></i></a>
                       </div>
                   </div>
               </div>
               <div class="placeholder">
                 {{ message.text }}
               </div>
+			  <div class="placeholder">
+			    <img src="{{message.gif_url}}" ng-hide="!message.gif_url" ng-model="message.gif_url" aria-label="Message text entry" ng-change="messages.$save(message)" class="gif-body-link"style="height: 150px; width: auto;"/>
+			  </div>
             </div>
           </li>
         </ul>
