@@ -12,7 +12,8 @@ var gulp = require("gulp"),
   express = require("express"),
   path = require("path"),
   watch = require("gulp-watch"),
-  autoprefixer = require("gulp-autoprefixer");
+  autoprefixer = require("gulp-autoprefixer"),
+  deploy      = require('gulp-gh-pages');
 
 gulp.task("express", function() {
   var app = express();
@@ -162,3 +163,10 @@ gulp.task("default", ["bundle", "copy", "express", "livereload", "watch"]);
 gulp.task("test", ["lint", "watch-test"]);
 gulp.task("testci", ["lint", "test-once"]);
 gulp.task("build", ["clean-dist", "bundle", "copy"]);
+/**
+ * Push build to gh-pages
+ */
+gulp.task('deploy', function () {
+  return gulp.src("./dist/**/*")
+    .pipe(deploy())
+});

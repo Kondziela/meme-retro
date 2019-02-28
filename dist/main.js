@@ -175,6 +175,7 @@ angular
       FEATURES,
       importExportService
     ) {
+      $scope.next = 0;
       $scope.loading = true;
       $scope.messageTypes = utils.messageTypes;
       $scope.utils = utils;
@@ -399,8 +400,26 @@ angular
 
       $scope.deleteMessage = function(message) {
         $scope.messages.$remove(message);
-
         modalService.closeAll();
+      };
+
+	  $scope.clearVariable = function() {
+        $scope.gifs = [[]];
+      };
+
+      $scope.deleteGif = function(message) {
+        message.gif_url = "";
+        modalService.closeAll();
+      };
+
+      $scope.addGif = function(message) {
+if ($scope.gif) {        message.gif_url = $scope.gif;
+        $rootScope.$broadcast('imageAdd');modalService.closeAll();}
+      };
+	  
+      $scope.addMeme = function(message) {
+        if ($scope.gif) {message.gif_url = importExportService.getMemeUrl(document.getElementsByName("memeTop")[0].value, document.getElementsByName("memeBottom")[0].value,$scope.gif);
+        $rootScope.$broadcast('imageAdd');modalService.closeAll();}
       };
 
       function addMessageCallback(message) {
@@ -418,7 +437,7 @@ angular
             text: '',
             creating: true,
             user_id: $scope.userUid,
-            gir_url: '',
+            gif_url: '',
             type: {
               id: type.id
             },
@@ -472,11 +491,69 @@ angular
         $scope.import.error = '';
       };
 
-        $scope.loadAndShowGifs = function () {
+      $scope.loadAndShowGifs = function () {
+        $scope.next = 0;
+        $scope.loadGifs();
+      };
 
-            $scope.gifs = [["https://memegen.link/custom/my_pretty/background.jpg?alt=https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Gatto_europeo4.jpg/250px-Gatto_europeo4.jpg"]];
-                console.log(importExportService.getMemesUrlsByQuery($scope.gifname));
-        };
+      $scope.loadAndShowMemes = function () {
+        $scope.next = 0;
+        $scope.loadMemes();
+      };
+
+      $scope.loadGifs = function (offset) {
+          importExportService.getGifsUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(function (urlList) {
+              var rowList = [], currentRow = 0;
+
+              urlList.forEach(function (item, index) {
+                  if (!(index % 3)) {
+                      currentRow++;
+                      rowList[currentRow] = [];
+                  }
+                  rowList[currentRow].push({gif: item, class: ''});
+              });
+              $scope.gifs = rowList;
+              $scope.$apply();
+          });
+      };
+
+      $scope.loadMemes = function (offset) {
+          importExportService.getStaticGifsUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(function (urlList) {
+              var rowList = [], currentRow = 0;
+
+              urlList.forEach(function (item, index) {
+                  if (!(index % 3)) {
+                      currentRow++;
+                      rowList[currentRow] = [];
+                  }
+                  rowList[currentRow].push({gif: item, class: ''});
+              });
+              $scope.gifs = rowList;
+              $scope.$apply();
+          });
+      };
+
+	  $scope.selectGif = function(gif) {
+	      $scope.gifs.forEach(function (gifArr) { gifArr.forEach(function (gif) { gif.class = "";})});
+          gif.class = "with-border selected our-css";
+	      $scope.gif = gif.gif;
+	  };
+	  
+	  $scope.selectMeme = function(gif) {
+          $scope.gifs.forEach(function (gifArr) { gifArr.forEach(function (gif) { gif.class = "";})});
+          gif.class = "with-border selected our-css";
+          $scope.gif = gif.gif;
+	  };
+
+      $scope.findNextGifs = function() {
+        $scope.next = $scope.next + 1;
+        $scope.loadGifs($scope.next * 9);
+      };
+
+      $scope.findNextMemes = function() {
+        $scope.next = $scope.next + 1;
+        $scope.loadMemes($scope.next * 9);
+      };
 
       /* globals Clipboard */
       new Clipboard('.import-btn');
@@ -495,10 +572,11 @@ angular
 angular.module('fireideaz').controller('MessageCtrl', [
   '$scope',
   '$window',
+  '$rootScope',
   'FirebaseService',
   'ModalService',
   'VoteService',
-  function($scope, $window, firebaseService, modalService, voteService) {
+  function($scope, $window, $rootScope, firebaseService, modalService, voteService) {
     function mergeCardVotes(first, second) {
       voteService.mergeMessages($scope.userId, first, second);
     }
@@ -513,6 +591,11 @@ angular.module('fireideaz').controller('MessageCtrl', [
         modalService.openMergeCards($scope);
       }
     };
+
+      $scope.$on('imageAdd', function () {
+          $scope.isEditing = false;
+          $scope.$apply();
+      });
 
     $scope.dropped = function(dragEl, dropEl) {
       var drag = $('#' + dragEl);
@@ -858,25 +941,70 @@ angular
             function (firebaseService, modalService, CsvService, $filter, $http) {
                 var importExportService = {};
 
-				//TODO MEME GIF
-				
-                importExportService.getMemesUrlsByQuery = function (name, offset) {
+                importExportService.getStaticGifsUrlsByQuery = function (name, limit, offset) {
                     if (!offset) {
                         offset = 0;
                     }
-                    return $http({
-                        method: 'GET',
-                        url: 'https://api.giphy.com/v1/gifs/search?api_key=orXMkeCrlZ1aZZLEVLWCjY7XsUgYgJUe&limit=10&q=' + name + '&offset=' + offset
-                    }).then(function successCallback(response) {
-                        var gifs = response.data.data.map(function (gifObj) {
-                            return gifObj.images.downsized.url;
+                    if (!limit) {
+                        limit = 9;
+                    }
+                    return new Promise(function(resolve,reject) {
+                        $http({
+                            method: 'GET',
+                            url: 'https://api.giphy.com/v1/gifs/search?api_key=orXMkeCrlZ1aZZLEVLWCjY7XsUgYgJUe&limit=' + limit + '&q=' + name + '&offset=' + offset
+                        }).then(function successCallback(response) {
+                            resolve(response.data.data.map(function(gifObj) {
+                                return gifObj.images.downsized_still.url;
+                            }));
+                        }, function errorCallback(response) {
+                            console.log('ERROR: '+response);
+                            reject();
                         });
-                        gifs = [[],[],[]];
-
-                    }, function errorCallback(response) {
-                        console.log('ERROR: '+response);
-                        return [[],[],[]];
                     });
+                };
+				
+                importExportService.getGifsUrlsByQuery = function (name, limit, offset) {
+                    if (!offset) {
+                        offset = 0;
+                    }
+                    if (!limit) {
+                        limit = 9;
+                    }
+                    return new Promise(function(resolve,reject) {
+                        $http({
+                            method: 'GET',
+                            url: 'https://api.giphy.com/v1/gifs/search?api_key=orXMkeCrlZ1aZZLEVLWCjY7XsUgYgJUe&limit=' + limit + '&q=' + name + '&offset=' + offset
+                        }).then(function successCallback(response) {
+                            resolve(response.data.data.map(function(gifObj) {
+                                return gifObj.images.downsized.url;
+                            }));
+                        }, function errorCallback(response) {
+                            console.log('ERROR: '+response);
+                            reject();
+                        });
+                    });
+                };
+
+                importExportService.getMemeUrl = function (topString, downString, gifUrl) {
+                    var top = topString.replace(/\?/g, '~q');
+                    top = top.replace(/\//g, '~s');
+                    top = top.replace(/\%/g, '~p');
+                    top = top.replace(/\#/g, '~h');
+                    top = top.replace(/\"/g, '\'\'');
+                    top = top.replace(/\_/g, '__');
+                    top = top.replace(/\-/g, '--');
+                    top = top.replace(/\s/g, '_');
+
+                    var down = downString.replace(/\?/g, '~q');
+                    down = down.replace(/\//g, '~s');
+                    down = down.replace(/\%/g, '~p');
+                    down = down.replace(/\#/g, '~h');
+                    down = down.replace(/\"/g, '\'\'');
+                    down = down.replace(/\_/g, '__');
+                    down = down.replace(/\-/g, '--');
+                    down = down.replace(/\s/g, '_');
+
+                    return 'https://memegen.link/custom/'+top+'/'+down+'.jpg?alt='+gifUrl;
                 };
 
                 importExportService.importMessages = function (userUid, importObject, messages) {
@@ -1108,6 +1236,13 @@ angular
           scope: scope
         });
       },
+      openDeleteEmbed: function(scope) {
+        ngDialog.open({
+          template: 'deleteEmbed',
+          className: 'ngdialog-theme-plain',
+          scope: scope
+        });
+      },
       openDeleteColumn: function(scope) {
         ngDialog.open({
           template: 'deleteColumn',
@@ -1156,6 +1291,20 @@ angular
         ngDialog.open({
           template: 'cardSettings',
           className: 'ngdialog-theme-plain',
+          scope: scope
+        });
+      },
+      openGifDialog: function(scope) {
+        ngDialog.open({
+          template: 'gifSearch',
+          className: 'ngdialog-theme-plain bigDialog',
+          scope: scope
+        });
+      },
+      openMemeDialog: function(scope) {
+        ngDialog.open({
+          template: 'memeSearch',
+          className: 'ngdialog-theme-plain bigDialog',
           scope: scope
         });
       },
