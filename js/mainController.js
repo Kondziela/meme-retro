@@ -13,8 +13,8 @@ angular
     '$rootScope',
     'FirebaseService',
     'ModalService',
+    'MemeService',
     'FEATURES',
-    'ImportExportService',
     function(
       $scope,
       $filter,
@@ -24,8 +24,8 @@ angular
       $rootScope,
       firebaseService,
       modalService,
-      FEATURES,
-      importExportService
+      memeService,
+      FEATURES
     ) {
       $scope.next = 0;
       $scope.loading = true;
@@ -270,7 +270,7 @@ if ($scope.gif) {        message.gif_url = $scope.gif;
       };
 	  
       $scope.addMeme = function(message) {
-        if ($scope.gif) {message.gif_url = importExportService.getMemeUrl(document.getElementsByName("memeTop")[0].value, document.getElementsByName("memeBottom")[0].value,$scope.gif);
+        if ($scope.gif) {message.gif_url = memeService.getMemeUrl(document.getElementsByName("memeTop")[0].value, document.getElementsByName("memeBottom")[0].value,$scope.gif);
         $rootScope.$broadcast('imageAdd');modalService.closeAll();}
       };
 
@@ -354,7 +354,7 @@ if ($scope.gif) {        message.gif_url = $scope.gif;
       };
 
       $scope.loadGifs = function (offset) {
-          importExportService.getGifsUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(function (urlList) {
+          memeService.getGifsUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(function (urlList) {
               var rowList = [], currentRow = 0;
 
               urlList.forEach(function (item, index) {
@@ -370,7 +370,7 @@ if ($scope.gif) {        message.gif_url = $scope.gif;
       };
 
       $scope.loadMemes = function (offset) {
-          importExportService.getStaticGifsUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(function (urlList) {
+          memeService.getStaticGifsUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(function (urlList) {
               var rowList = [], currentRow = 0;
 
               urlList.forEach(function (item, index) {

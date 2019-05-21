@@ -1,9 +1,11 @@
 'use strict';
 
-angular.module('fireideaz').directive('memeDialog', [function () {
+angular.module('fireideaz').directive('memeDialog', ['MemeService', function (memeService) {
         return {
-            restrict: 'E',
-            templateUrl: 'components/memeDialog.html'
+            templateUrl: 'components/memeDialog.html',
+            link: function ($scope) {
+                $scope.memeService = memeService;
+            }
         };
     }]
 );
