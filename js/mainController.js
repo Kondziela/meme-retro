@@ -13,7 +13,6 @@ angular
     '$rootScope',
     'FirebaseService',
     'ModalService',
-    'MemeService',
     'FEATURES',
     function(
       $scope,
@@ -24,7 +23,6 @@ angular
       $rootScope,
       firebaseService,
       modalService,
-      memeService,
       FEATURES
     ) {
       $scope.next = 0;
