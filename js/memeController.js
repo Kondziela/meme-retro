@@ -53,46 +53,26 @@ angular
                 $scope.loadMemes();
             };
 
-            $scope.loadGifs = function (offset) {
-                memeService.getGifsUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(function (urlList) {
-                    var rowList = [], currentRow = 0;
+            function handleRequestResponse(urlList) {
+                var rowList = [], currentRow = 0;
 
-                    urlList.forEach(function (item, index) {
-                        if (!(index % 3)) {
-                            currentRow++;
-                            rowList[currentRow] = [];
-                        }
-                        rowList[currentRow].push({gif: item, class: ''});
-                    });
-                    $scope.gifs = rowList;
-                    $scope.$apply();
+                urlList.forEach(function (item, index) {
+                    if (!(index % 3)) {
+                        currentRow++;
+                        rowList[currentRow] = [];
+                    }
+                    rowList[currentRow].push({gif: item, class: ''});
                 });
+                $scope.gifs = rowList;
+                $scope.$apply();
+            }
+
+            $scope.loadGifs = function (offset) {
+                memeService.getGifsUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(handleRequestResponse);
             };
 
             $scope.loadMemes = function (offset) {
-                memeService.getStaticGifsUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(function (urlList) {
-                    var rowList = [], currentRow = 0;
-
-                    urlList.forEach(function (item, index) {
-                        if (!(index % 3)) {
-                            currentRow++;
-                            rowList[currentRow] = [];
-                        }
-                        rowList[currentRow].push({gif: item, class: ''});
-                    });
-                    $scope.gifs = rowList;
-                    $scope.$apply();
-                });
-            };
-
-            $scope.selectGif = function (gif) {
-                $scope.gifs.forEach(function (gifArr) {
-                    gifArr.forEach(function (gif) {
-                        gif.class = "";
-                    })
-                });
-                gif.class = "with-border selected our-css";
-                $scope.gif = gif.gif;
+                memeService.getStaticGifsUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(handleRequestResponse);
             };
 
             $scope.selectMeme = function (gif) {
