@@ -86,6 +86,7 @@ angular
             };
 
             $scope.findNextGifs = function () {
+                $scope.gifs = [];
                 $scope.next = $scope.next + 1;
                 $scope.loadGifs($scope.next * 9);
             };
