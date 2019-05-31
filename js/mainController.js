@@ -134,6 +134,10 @@ angular
         $scope.messages.$save(message);
       };
 
+      $scope.$on('imageAdd', function (event, message) {
+        $scope.saveMessage(message);
+      });
+
       function redirectToBoard() {
         window.location.href =
           window.location.origin +

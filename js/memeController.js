@@ -30,7 +30,7 @@ angular
             $scope.addGif = function (message) {
                 if ($scope.gif) {
                     message.gif_url = $scope.gif;
-                    $rootScope.$broadcast('imageAdd');
+                    $rootScope.$broadcast('imageAdd', message);
                     modalService.closeAll();
                 }
             };
@@ -38,7 +38,7 @@ angular
             $scope.addMeme = function (message) {
                 if ($scope.gif) {
                     message.gif_url = memeService.getMemeUrl(document.getElementsByName("memeTop")[0].value, document.getElementsByName("memeBottom")[0].value, $scope.gif);
-                    $rootScope.$broadcast('imageAdd');
+                    $rootScope.$broadcast('imageAdd', message);
                     modalService.closeAll();
                 }
             };
@@ -86,6 +86,7 @@ angular
             };
 
             $scope.findNextGifs = function () {
+                $scope.gifs = [];
                 $scope.next = $scope.next + 1;
                 $scope.loadGifs($scope.next * 9);
             };
