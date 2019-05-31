@@ -23,9 +23,8 @@ angular.module('fireideaz').controller('MessageCtrl', [
       }
     };
 
-    $scope.$on('imageAdd', function () {
-      $scope.isEditing = false;
-      $scope.$apply();
+    $scope.$on('imageAdd', () => {
+        $scope.isEditing = false;
     });
 
     $scope.dropped = function(dragEl, dropEl) {
