@@ -100,6 +100,20 @@
   }
 }
 
+.pictureLink {
+  width: 420px;
+  height: 25px;
+  margin-left: 15px;
+  font-size: 0.85em;
+  vertical-align: top;
+  border-radius: 3px;
+
+  @media (max-width: 1000px) {
+    width: 340px;
+    margin-left: 5px;
+  }
+}
+
 .ngdialog.ngdialog-theme-plain .ngdialog-content .hide-vote {
   min-width: 80px;
   margin-left: 0;
