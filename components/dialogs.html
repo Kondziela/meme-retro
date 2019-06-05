@@ -129,7 +129,8 @@
 	</table>
         <div align="center">
             <span style="display: table" ng-repeat="gifRow in gifs track by $index">
-                <div style="display: table-cell; padding: 20px" ng-repeat="gif in gifRow track by $index"><img height="125px" width="125px" src={{gif.gif}} class={{gif.class}} ng-click="selectMeme(gif)"></div>
+                <div class="div-popup our-css" ng-repeat="gif in gifRow track by $index">
+                    <img class="img-popup our-css {{gif.class}}" src={{gif.gif}} ng-click="selectMeme(gif)"></div>
             </span>
         </div>
 
@@ -163,7 +164,8 @@
 	</table>
         <div align="center">
             <span style="display: table" ng-repeat="gifRow in gifs track by $index">
-                <div style="display: table-cell; padding: 20px" ng-repeat="gif in gifRow track by $index"><img height="125px" width="125px" src={{gif.gif}} class={{gif.class}} ng-click="selectMeme(gif)"></div>
+                <div class="div-popup our-css" ng-repeat="gif in gifRow track by $index">
+                    <img class="img-popup our-css {{gif.class}}" src={{gif.gif}} ng-click="selectMeme(gif)"></div>
             </span>
         </div>
 	<table>
