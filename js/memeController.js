@@ -95,5 +95,9 @@ angular
                 $scope.next = $scope.next + 1;
                 $scope.loadMemes($scope.next * 9);
             };
+
+            $scope.findFirstGifByTag = function (tag) {
+                memeService.getGifsUrlsByQuery(tag, 1);
+            };
         }
     ]);
