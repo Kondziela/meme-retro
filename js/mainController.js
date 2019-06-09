@@ -418,7 +418,7 @@ angular
                 for (var i = 0; i < numberOfPoints; i++) {
                     var index;
                     do {
-                        index = Math.floor(Math.random() * (jsonList.length + 1))
+                        index = Math.floor(Math.random() * jsonList.length);
                     }
                     while (randomIndexes.includes(index));
                     randomIndexes.push(index);
