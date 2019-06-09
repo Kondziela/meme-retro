@@ -13,6 +13,7 @@ angular
     '$rootScope',
     'FirebaseService',
     'ModalService',
+    'MemeService',
     'FEATURES',
     function(
       $scope,
@@ -23,6 +24,7 @@ angular
       $rootScope,
       firebaseService,
       modalService,
+      memeService,
       FEATURES
     ) {
       $scope.next = 0;
@@ -209,6 +211,10 @@ angular
         $window.history.pushState({ path: updatedFilter }, '', updatedFilter);
       };
 
+      $scope.loadRandomBoard = function() {
+          memeService.loadRandomBoard();
+      };
+
       $scope.addNewColumn = function(name) {
         if (typeof name === 'undefined' || name === '') {
           return;
@@ -313,6 +319,12 @@ angular
               if (data) {
                 $scope.addNewColumn(data);
                 $scope.newColumn = '';
+              }
+
+              break;
+           case 'loadRandomBoard':
+              if (data) {
+                $scope.loadRandomBoard();
               }
 
               break;
