@@ -152,14 +152,18 @@
 	<table>
 		<tbody>
 		<tr>
-			<td align="right"><input class="filter-message" placeholder="Gif search term" name="gifname" type="text"
+			<td><input class="filter-message-our" placeholder="Meme search term" name="gifname" type="text"
                                      width="100%" ng-model="gifname" ng-keyup="submitOnEnter($event, 'loadAndShowMemes', gifname)"/></td>
-			<td align="right"><input name="search" type="submit" value="Search" class="button" ng-click="loadAndShowMemes()"/></td>
+			<td><input name="search" type="submit" value="Search" class="button filter-message-our" ng-click="loadAndShowMemes()"/></td>
 		</tr>
 		<tr>
-			<td align="right"><input class="filter-message" placeholder="Top text" name="memeTop" type="text" width="100%" ng-model="mameTop"/></td>
-			<td align="right"><input class="filter-message" placeholder="Bottom text" name="memeBottom" type="text" width="100%" ng-model="memeBottom"/></td>
+			<td><input class="filter-message-our" placeholder="Top text" name="memeTop" type="text" width="100%" ng-model="mameTop"/></td>
+			<td><input class="filter-message-our" placeholder="Bottom text" name="memeBottom" type="text" width="100%" ng-model="memeBottom"/></td>
 		</tr>
+        <tr>
+            <td colspan="2"><input id="pic" class="pictureLink our-css" placeholder="Link to own meme picture" name="pictureLink" type="text"
+                                      ng-model="pictureLink"/></td>
+        </tr>
 		</tbody>
 	</table>
         <div align="center">
