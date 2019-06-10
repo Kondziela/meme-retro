@@ -121,22 +121,19 @@
 	<table>
 		<tbody>
 		<tr>
-			<td/>
-			<td/>
-			<td/>
 			<td align="right"><input class="filter-message" placeholder="Gif search term" name="gifname" type="text"
                                      width="100%" ng-model="gifname" ng-keyup="submitOnEnter($event, 'loadAndShowGifs', gifname)"/></td>
 			<td align="right"><input name="search" type="submit" value="Search" class="button" ng-click="loadAndShowGifs()"/></td>
 		</tr>
 		</tbody>
 	</table>
-	<table>
-		<tbody>
-        <tr ng-repeat="gifRow in gifs track by $index">
-            <td ng-repeat="gif in gifRow track by $index"><img height="100px" src={{gif.gif}} class={{gif.class}} ng-click="selectMeme(gif)"></td>
-        </tr>
-		</tbody>
-	</table>
+        <div align="center">
+            <span style="display: table" ng-repeat="gifRow in gifs track by $index">
+                <div class="div-popup our-css" ng-repeat="gif in gifRow track by $index">
+                    <img class="img-popup our-css {{gif.class}}" src={{gif.gif}} ng-click="selectMeme(gif)"></div>
+            </span>
+        </div>
+
 	<table>
 		<tbody>
 		<tr>
@@ -165,17 +162,15 @@
 		</tr>
 		</tbody>
 	</table>
-	<table>
-		<tbody>
-        <tr ng-repeat="gifRow in gifs track by $index">
-            <td ng-repeat="gif in gifRow track by $index"><img height="100px" src={{gif.gif}} class={{gif.class}} ng-click="selectMeme(gif)"></td>
-        </tr>
-		</tbody>
-	</table>
+        <div align="center">
+            <span style="display: table" ng-repeat="gifRow in gifs track by $index">
+                <div class="div-popup our-css" ng-repeat="gif in gifRow track by $index">
+                    <img class="img-popup our-css {{gif.class}}" src={{gif.gif}} ng-click="selectMeme(gif)"></div>
+            </span>
+        </div>
 	<table>
 		<tbody>
 		<tr>
-			<td/>
 			<td align="right"><a ng-click="modalService.closeAll();">Cancel</a></td>
 			<td align="right"><a ng-click="findNextGifs();">Next</a></td>
 			<td align="right"><button class="button" ng-click="addMeme(message)">Add Meme</button></td>
