@@ -10,13 +10,11 @@ angular
         '$rootScope',
         'ModalService',
         'MemeService',
-        function (
-            $scope,
-            $window,
-            $rootScope,
-            modalService,
-            memeService
-        ) {
+        function ($scope,
+                  $window,
+                  $rootScope,
+                  modalService,
+                  memeService) {
 
             $scope.clearVariable = function () {
                 $scope.gifs = [[]];
@@ -95,6 +93,21 @@ angular
             $scope.findNextMemes = function () {
                 $scope.next = $scope.next + 1;
                 $scope.loadMemes($scope.next * 9);
+            };
+
+            $scope.submitOnEnter = function(event, method, data) {
+                if (event.keyCode === 13 && data) {
+                    switch (method) {
+                        case 'loadAndShowGifs':
+                            $scope.loadAndShowGifs();
+
+                            break;
+                        case 'loadAndShowMemes':
+                            $scope.loadAndShowMemes();
+
+                            break;
+                    }
+                }
             };
         }
     ]);
