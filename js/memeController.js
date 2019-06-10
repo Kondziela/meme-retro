@@ -10,13 +10,11 @@ angular
         '$rootScope',
         'ModalService',
         'MemeService',
-        function (
-            $scope,
-            $window,
-            $rootScope,
-            modalService,
-            memeService
-        ) {
+        function ($scope,
+                  $window,
+                  $rootScope,
+                  modalService,
+                  memeService) {
 
             $scope.clearVariable = function () {
                 $scope.gifs = [[]];
