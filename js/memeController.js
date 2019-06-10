@@ -93,5 +93,20 @@ angular
                 $scope.next = $scope.next + 1;
                 $scope.loadMemes($scope.next * 9);
             };
+
+            $scope.submitOnEnter = function(event, method, data) {
+                if (event.keyCode === 13 && data) {
+                    switch (method) {
+                        case 'loadAndShowGifs':
+                            $scope.loadAndShowGifs();
+
+                            break;
+                        case 'loadAndShowMemes':
+                            $scope.loadAndShowMemes();
+
+                            break;
+                    }
+                }
+            };
         }
     ]);
