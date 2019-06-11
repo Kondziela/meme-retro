@@ -113,6 +113,11 @@
   }
 }
 
+.scrollable-our {
+  overflow-y: scroll;
+  height: 600px;
+}
+
 #pic {
   padding: 5px;
   margin: auto;
