@@ -90,12 +90,27 @@ angular
                 $scope.loadGifs($scope.next * 9);
             };
 
+            $scope.findPreviousGifs = function () {
+                if ($scope.next != 0) {
+                    $scope.gifs = [];
+                    $scope.next = $scope.next - 1;
+                    $scope.loadGifs($scope.next * 9);
+                }
+            };
+
             $scope.findNextMemes = function () {
                 $scope.next = $scope.next + 1;
                 $scope.loadMemes($scope.next * 9);
             };
 
-            $scope.submitOnEnter = function(event, method, data) {
+            $scope.findPreviousMemes = function () {
+                if ($scope.next != 0) {
+                    $scope.next = $scope.next - 1;
+                    $scope.loadMemes($scope.next * 9);
+                }
+            };
+
+            $scope.submitOnEnter = function (event, method, data) {
                 if (event.keyCode === 13 && data) {
                     switch (method) {
                         case 'loadAndShowGifs':
