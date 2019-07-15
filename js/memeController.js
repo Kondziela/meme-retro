@@ -36,7 +36,11 @@ angular
             $scope.addMeme = function (message) {
                 var gif_url = $scope.gif ? $scope.gif : document.getElementsByName("pictureLink")[0].value;
                 if (gif_url) {
-                    message.gif_url = memeService.getMemeUrl(document.getElementsByName("memeTop")[0].value, document.getElementsByName("memeBottom")[0].value, gif_url);
+                    var memeTop = document.getElementsByName("memeTop")[0].value;
+                    if (!memeTop) {
+                        memeTop = " ";
+                    }
+                    message.gif_url = memeService.getMemeUrl(memeTop, document.getElementsByName("memeBottom")[0].value, gif_url);
                     $rootScope.$broadcast('imageAdd', message);
                     modalService.closeAll();
                 }
