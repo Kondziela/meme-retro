@@ -82,7 +82,7 @@ angular
                 $scope.gifs.forEach(function (gifArr) {
                     gifArr.forEach(function (gif) {
                         gif.class = "";
-                    })
+                    });
                 });
                 gif.class = "with-border selected our-css";
                 $scope.gif = gif.gif;
@@ -95,7 +95,7 @@ angular
             };
 
             $scope.findPreviousGifs = function () {
-                if ($scope.next != 0) {
+                if ($scope.next !== 0) {
                     $scope.gifs = [];
                     $scope.next = $scope.next - 1;
                     $scope.loadGifs($scope.next * 9);
@@ -108,7 +108,7 @@ angular
             };
 
             $scope.findPreviousMemes = function () {
-                if ($scope.next != 0) {
+                if ($scope.next !== 0) {
                     $scope.next = $scope.next - 1;
                     $scope.loadMemes($scope.next * 9);
                 }
