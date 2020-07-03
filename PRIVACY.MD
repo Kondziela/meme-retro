@@ -29,8 +29,3 @@ We will notify you of any changes to our Privacy Policy by posting the new Priva
 
 Your continued use of the Apps and Services following the posting of changes will mean you accept those changes.
 ____________________________________________________________________________________________________________________________________
-Contact us
-
-If you have any questions regarding privacy while using the Apps, or have questions about our practices,
-please contact us via email at glauberamos@gmail.com
-____________________________________________________________________________________________________________________________________
