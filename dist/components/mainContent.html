@@ -58,7 +58,8 @@
 							<button ng-click="isEditing = false;saveMessage(message); updateEditingMessage(message, false);">DONE</button>
 							<a class="gif-link message-body-link" href="javascript:void(0)" ng-click="modalService.openGifDialog(this);clearVariable()" aria-label="Add gif" ng-controller="MemeCtrl">GIF</a>
 							<a class="meme-link message-body-link" href="javascript:void(0)" ng-click="modalService.openMemeDialog(this);clearVariable()" aria-label="Add meme" ng-controller="MemeCtrl">MEME</a>
-							<a class="delete-meme message-body-link" href="javascript:void(0)" ng-click="modalService.openDeleteEmbed(this)" aria-label="Delete MEME/GIF"><i class="fa fa-camera-retro"></i></a>
+							<a class="random-point message-body-link" href="javascript:void(0)" ng-click="modalService.loadRandomGif(message)" aria-label="Random Point"><i class="fa fa-bomb"></i></a>
+							<a class="delete-meme message-body-link" href="javascript:void(0)" ng-click="modalService.openDeleteEmbed(this)" aria-label="Delete MEME/GIF"><i class="fa fa-times"></i></a>
 							<a class="delete-link message-body-link" href="javascript:void(0)" ng-click="modalService.openDeleteCard(this)" aria-label="Delete message"><i class="fa fa-trash"></i></a>
                       </div>
                   </div>

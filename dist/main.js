@@ -161,8 +161,8 @@ angular
     '$rootScope',
     'FirebaseService',
     'ModalService',
+    'MemeService',
     'FEATURES',
-    'ImportExportService',
     function(
       $scope,
       $filter,
@@ -172,8 +172,8 @@ angular
       $rootScope,
       firebaseService,
       modalService,
-      FEATURES,
-      importExportService
+      memeService,
+      FEATURES
     ) {
       $scope.next = 0;
       $scope.loading = true;
@@ -283,6 +283,10 @@ angular
         message.creating = false;
         $scope.messages.$save(message);
       };
+
+      $scope.$on('imageAdd', function (event, message) {
+        $scope.saveMessage(message);
+      });
 
       function redirectToBoard() {
         window.location.href =
@@ -403,25 +407,6 @@ angular
         modalService.closeAll();
       };
 
-	  $scope.clearVariable = function() {
-        $scope.gifs = [[]];
-      };
-
-      $scope.deleteGif = function(message) {
-        message.gif_url = "";
-        modalService.closeAll();
-      };
-
-      $scope.addGif = function(message) {
-if ($scope.gif) {        message.gif_url = $scope.gif;
-        $rootScope.$broadcast('imageAdd');modalService.closeAll();}
-      };
-	  
-      $scope.addMeme = function(message) {
-        if ($scope.gif) {message.gif_url = importExportService.getMemeUrl(document.getElementsByName("memeTop")[0].value, document.getElementsByName("memeBottom")[0].value,$scope.gif);
-        $rootScope.$broadcast('imageAdd');modalService.closeAll();}
-      };
-
       function addMessageCallback(message) {
         var id = message.key;
         angular.element($('#' + id)).scope().isEditing = true;
@@ -481,6 +466,12 @@ if ($scope.gif) {        message.gif_url = $scope.gif;
               }
 
               break;
+           case 'loadRandomBoard':
+              if (data) {
+                $scope.loadRandomBoard();
+              }
+
+              break;
           }
         }
       };
@@ -489,70 +480,6 @@ if ($scope.gif) {        message.gif_url = $scope.gif;
         $scope.import.data = [];
         $scope.import.mapping = [];
         $scope.import.error = '';
-      };
-
-      $scope.loadAndShowGifs = function () {
-        $scope.next = 0;
-        $scope.loadGifs();
-      };
-
-      $scope.loadAndShowMemes = function () {
-        $scope.next = 0;
-        $scope.loadMemes();
-      };
-
-      $scope.loadGifs = function (offset) {
-          importExportService.getGifsUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(function (urlList) {
-              var rowList = [], currentRow = 0;
-
-              urlList.forEach(function (item, index) {
-                  if (!(index % 3)) {
-                      currentRow++;
-                      rowList[currentRow] = [];
-                  }
-                  rowList[currentRow].push({gif: item, class: ''});
-              });
-              $scope.gifs = rowList;
-              $scope.$apply();
-          });
-      };
-
-      $scope.loadMemes = function (offset) {
-          importExportService.getStaticGifsUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(function (urlList) {
-              var rowList = [], currentRow = 0;
-
-              urlList.forEach(function (item, index) {
-                  if (!(index % 3)) {
-                      currentRow++;
-                      rowList[currentRow] = [];
-                  }
-                  rowList[currentRow].push({gif: item, class: ''});
-              });
-              $scope.gifs = rowList;
-              $scope.$apply();
-          });
-      };
-
-	  $scope.selectGif = function(gif) {
-	      $scope.gifs.forEach(function (gifArr) { gifArr.forEach(function (gif) { gif.class = "";})});
-          gif.class = "with-border selected our-css";
-	      $scope.gif = gif.gif;
-	  };
-	  
-	  $scope.selectMeme = function(gif) {
-          $scope.gifs.forEach(function (gifArr) { gifArr.forEach(function (gif) { gif.class = "";})});
-          gif.class = "with-border selected our-css";
-          $scope.gif = gif.gif;
-	  };
-
-      $scope.findNextGifs = function() {
-        $scope.next = $scope.next + 1;
-        $scope.loadGifs($scope.next * 9);
-      };
-
-      $scope.findNextMemes = function() {
-        $scope.next = $scope.next + 1;
-        $scope.loadMemes($scope.next * 9);
       };
 
       /* globals Clipboard */
@@ -566,6 +493,139 @@ if ($scope.gif) {        message.gif_url = $scope.gif;
     }
 
   ]);
+
+/* global EmojiPicker */
+'use strict';
+
+angular
+    .module('fireideaz')
+
+    .controller('MemeCtrl', [
+        '$scope',
+        '$window',
+        '$rootScope',
+        'ModalService',
+        'MemeService',
+        function ($scope,
+                  $window,
+                  $rootScope,
+                  modalService,
+                  memeService) {
+
+            $scope.clearVariable = function () {
+                $scope.gifs = [[]];
+            };
+
+            $scope.deleteGif = function (message) {
+                message.gif_url = "";
+                modalService.closeAll();
+            };
+
+            $scope.addGif = function (message) {
+                if ($scope.gif) {
+                    message.gif_url = $scope.gif;
+                    $rootScope.$broadcast('imageAdd', message);
+                    modalService.closeAll();
+                }
+            };
+
+            $scope.addMeme = function (message) {
+                var gif_url = $scope.gif ? $scope.gif : document.getElementsByName("pictureLink")[0].value;
+                if (gif_url) {
+                    var memeTop = document.getElementsByName("memeTop")[0].value;
+                    if (!memeTop) {
+                        memeTop = " ";
+                    }
+                    message.gif_url = memeService.getMemeUrl(memeTop, document.getElementsByName("memeBottom")[0].value, gif_url);
+                    $rootScope.$broadcast('imageAdd', message);
+                    modalService.closeAll();
+                }
+            };
+
+            $scope.loadAndShowGifs = function () {
+                $scope.next = 0;
+                $scope.loadGifs();
+            };
+
+            $scope.loadAndShowMemes = function () {
+                $scope.next = 0;
+                $scope.loadMemes();
+            };
+
+            function handleRequestResponse(urlList) {
+                var rowList = [], currentRow = 0;
+
+                urlList.forEach(function (item, index) {
+                    if (!(index % 3)) {
+                        currentRow++;
+                        rowList[currentRow] = [];
+                    }
+                    rowList[currentRow].push({gif: item, class: ''});
+                });
+                $scope.gifs = rowList;
+                $scope.$apply();
+            }
+
+            $scope.loadGifs = function (offset) {
+                memeService.getGifsUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(handleRequestResponse);
+            };
+
+            $scope.loadMemes = function (offset) {
+                memeService.getStaticGifsUrlsByQuery(document.getElementsByName("gifname")[0].value, 9, offset).then(handleRequestResponse);
+            };
+
+            $scope.selectMeme = function (gif) {
+                $scope.gifs.forEach(function (gifArr) {
+                    gifArr.forEach(function (gif) {
+                        gif.class = "";
+                    });
+                });
+                gif.class = "with-border selected our-css";
+                $scope.gif = gif.gif;
+            };
+
+            $scope.findNextGifs = function () {
+                $scope.gifs = [];
+                $scope.next = $scope.next + 1;
+                $scope.loadGifs($scope.next * 9);
+            };
+
+            $scope.findPreviousGifs = function () {
+                if ($scope.next !== 0) {
+                    $scope.gifs = [];
+                    $scope.next = $scope.next - 1;
+                    $scope.loadGifs($scope.next * 9);
+                }
+            };
+
+            $scope.findNextMemes = function () {
+                $scope.next = $scope.next + 1;
+                $scope.loadMemes($scope.next * 9);
+            };
+
+            $scope.findPreviousMemes = function () {
+                if ($scope.next !== 0) {
+                    $scope.next = $scope.next - 1;
+                    $scope.loadMemes($scope.next * 9);
+                }
+            };
+
+            $scope.submitOnEnter = function (event, method, data) {
+                if (event.keyCode === 13 && data) {
+                    switch (method) {
+                        case 'loadAndShowGifs':
+                            $scope.loadAndShowGifs();
+
+                            break;
+                        case 'loadAndShowMemes':
+                            $scope.loadAndShowMemes();
+
+                            break;
+                    }
+                }
+            };
+        }
+    ]);
 
 'use strict';
 
@@ -592,10 +652,9 @@ angular.module('fireideaz').controller('MessageCtrl', [
       }
     };
 
-      $scope.$on('imageAdd', function () {
-          $scope.isEditing = false;
-          $scope.$apply();
-      });
+    $scope.$on('imageAdd', () => {
+        $scope.isEditing = false;
+    });
 
     $scope.dropped = function(dragEl, dropEl) {
       var drag = $('#' + dragEl);
@@ -937,107 +996,9 @@ angular
 angular
     .module('fireideaz')
     .service('ImportExportService',
-        ['FirebaseService', 'ModalService', 'CsvService', '$filter', '$http',
-            function (firebaseService, modalService, CsvService, $filter, $http) {
+        ['FirebaseService', 'ModalService', 'CsvService', '$filter',
+            function (firebaseService, modalService, CsvService, $filter) {
                 var importExportService = {};
-
-                importExportService.getStaticGifsUrlsByQuery = function (name, limit, offset) {
-                    if (!offset) {
-                        offset = 0;
-                    }
-                    if (!limit) {
-                        limit = 9;
-                    }
-                    return new Promise(function(resolve,reject) {
-                        $http({
-                            method: 'GET',
-                            url: 'https://api.giphy.com/v1/gifs/search?api_key=orXMkeCrlZ1aZZLEVLWCjY7XsUgYgJUe&limit=' + limit + '&q=' + name + '&offset=' + offset
-                        }).then(function successCallback(response) {
-                            resolve(response.data.data.map(function(gifObj) {
-                                return gifObj.images.downsized_still.url;
-                            }));
-                        }, function errorCallback(response) {
-                            console.log('ERROR: '+response);
-                            reject();
-                        });
-                    });
-                };
-				
-                importExportService.getGifsUrlsByQuery = function (name, limit, offset) {
-                    if (!offset) {
-                        offset = 0;
-                    }
-                    if (!limit) {
-                        limit = 9;
-                    }
-                    return new Promise(function(resolve,reject) {
-                        $http({
-                            method: 'GET',
-                            url: 'https://api.giphy.com/v1/gifs/search?api_key=orXMkeCrlZ1aZZLEVLWCjY7XsUgYgJUe&limit=' + limit + '&q=' + name + '&offset=' + offset
-                        }).then(function successCallback(response) {
-                            resolve(response.data.data.map(function(gifObj) {
-                                return gifObj.images.downsized.url;
-                            }));
-                        }, function errorCallback(response) {
-                            console.log('ERROR: '+response);
-                            reject();
-                        });
-                    });
-                };
-
-                importExportService.getMemeUrl = function (topString, downString, gifUrl) {
-                    var top = topString.replace(/\?/g, '~q');
-                    top = top.replace(/\//g, '~s');
-                    top = top.replace(/\%/g, '~p');
-                    top = top.replace(/\#/g, '~h');
-                    top = top.replace(/\"/g, '\'\'');
-                    top = top.replace(/\_/g, '__');
-                    top = top.replace(/\-/g, '--');
-                    top = top.replace(/\s/g, '_');
-
-                    var down = downString.replace(/\?/g, '~q');
-                    down = down.replace(/\//g, '~s');
-                    down = down.replace(/\%/g, '~p');
-                    down = down.replace(/\#/g, '~h');
-                    down = down.replace(/\"/g, '\'\'');
-                    down = down.replace(/\_/g, '__');
-                    down = down.replace(/\-/g, '--');
-                    down = down.replace(/\s/g, '_');
-
-                    return 'https://memegen.link/custom/'+top+'/'+down+'.jpg?alt='+gifUrl;
-                };
-
-                importExportService.importMessages = function (userUid, importObject, messages) {
-                    var data = importObject.data;
-                    var mapping = importObject.mapping;
-
-                    for (var importIndex = 1; importIndex < data.length; importIndex++) {
-                        for (var mappingIndex = 0; mappingIndex < mapping.length; mappingIndex++) {
-                            var mapFrom = mapping[mappingIndex].mapFrom;
-                            var mapTo = mapping[mappingIndex].mapTo;
-
-                            if (mapFrom === -1) {
-                                continue;
-                            }
-
-                            var cardText = data[importIndex][mapFrom];
-
-                            if (cardText) {
-                                messages.$add({
-                                    text: cardText,
-                                    user_id: userUid,
-                                    type: {
-                                        id: mapTo
-                                    },
-                                    date: firebaseService.getServerTimestamp(),
-                                    votes: 0
-                                });
-                            }
-                        }
-                    }
-
-                    modalService.closeAll();
-                };
 
                 importExportService.getSortFields = function (sortField) {
                     return sortField === 'votes' ? ['-votes', 'date_created'] : 'date_created';
@@ -1212,8 +1173,73 @@ angular
 'use strict';
 
 angular
+    .module('fireideaz')
+    .service('MemeService', ['$http',
+        function ($http) {
+            var memeService = {};
+
+            memeService.getStaticGifsUrlsByQuery = function (name, limit = 9, offset = 0) {
+
+                return new Promise((resolve, reject) => {
+                    $http({
+                        method: 'GET',
+                        url: 'https://api.giphy.com/v1/gifs/search?api_key=orXMkeCrlZ1aZZLEVLWCjY7XsUgYgJUe&limit=' + limit + '&q=' + name + '&offset=' + offset
+                    }).then((response) => {
+                        resolve(response.data.data.map(function (gifObj) {
+                            return gifObj.images.downsized_still.url;
+                        }));
+                    }, (response) => {
+                        reject('ERROR: ' + response);
+                    });
+                });
+            };
+
+            memeService.getGifsUrlsByQuery = function (name, limit = 9, offset = 0) {
+
+                return new Promise((resolve, reject) => {
+                    $http({
+                        method: 'GET',
+                        url: 'https://api.giphy.com/v1/gifs/search?api_key=orXMkeCrlZ1aZZLEVLWCjY7XsUgYgJUe&limit=' + limit + '&q=' + name + '&offset=' + offset
+                    }).then((response) => {
+                        resolve(response.data.data.map(function (gifObj) {
+                            return gifObj.images.downsized.url;
+                        }));
+                    }, (response) => {
+                        reject('ERROR: ' + response);
+                    });
+                });
+            };
+
+            memeService.getMemeUrl = function (topString, downString, gifUrl) {
+                var top = topString.replace(/\?/g, '~q')
+                    .replace(/\//g, '~s')
+                    .replace(/\%/g, '~p')
+                    .replace(/\#/g, '~h')
+                    .replace(/\"/g, '\'\'')
+                    .replace(/\_/g, '__')
+                    .replace(/\-/g, '--')
+                    .replace(/\s/g, '_'),
+
+                    down = downString.replace(/\?/g, '~q')
+                    .replace(/\//g, '~s')
+                    .replace(/\%/g, '~p')
+                    .replace(/\#/g, '~h')
+                    .replace(/\"/g, '\'\'')
+                    .replace(/\_/g, '__')
+                    .replace(/\-/g, '--')
+                    .replace(/\s/g, '_');
+
+                return 'https://memegen.link/custom/' + top + '/' + down + '.jpg?alt=' + gifUrl;
+            };
+
+            return memeService;
+        }]);
+
+'use strict';
+
+angular
   .module('fireideaz')
-  .service('ModalService', ['ngDialog', function(ngDialog) {
+  .service('ModalService', ['ngDialog', 'MemeService', '$rootScope', function(ngDialog, memeService, $rootScope) {
     return {
       openAddNewColumn: function(scope) {
         ngDialog.open({
@@ -1310,6 +1336,78 @@ angular
       },
       closeAll: function() {
         ngDialog.closeAll();
+      },
+      loadRandomGif: function (tile) {
+        var jsonList = [
+          {"text": "The best sprint ever", "tag": "happiness", "id": 1},
+          {"text": "The best sprint in my life", "tag": "joy", "id": 1},
+          {"text": "I was crying  while deploying", "tag": "cry", "id": 2},
+          {"text": "I am crying such a good sprint ended", "tag": "sweet", "id": 1},
+          {"text": "I am crying from happiness that the sprint ended", "tag": "exhausted", "id": 2},
+          {"text": "I love my team", "tag": "kissy", "id": 1},
+          {"text": "I love working with you", "tag": "heart", "id": 1},
+          {"text": "I hate some client ideas", "tag": "banana", "id": 2},
+          {
+            "text": "Priority of stories needs to be kept in mind as at the very start of sprint we were working on almost all stories and also it leads to more number of pull requests in open",
+            "tag": "rabbit",
+            "id": 2
+          },
+          {
+            "text": "I am disappointed because ... did whole story before sprint started",
+            "tag": "hamtaro",
+            "id": 2
+          },
+          {
+            "text": "I am amazed because ... did whole story before sprint started",
+            "tag": "respect",
+            "id": 1
+          },
+          {
+            "text": "Thanks ... that you haven't forced us to make more improvements!!",
+            "tag": "relief",
+            "id": 1
+          },
+          {"text": "Thank you ... for help with GUI!!", "tag": "thanks", "id": 1},
+          {"text": "Why am I still here??", "tag": "pokemon", "id": 2},
+          {"text": "3x WHY????!!", "tag": "miniones", "id": 2},
+          {
+            "text": "The story with ... was underestimated and because of it we couldn't deliver two another stories",
+            "tag": "maharaja",
+            "id": 2
+          },
+          {
+            "text": "Some of us dont read US carefully and then the story couldn't be delivered because of the lack of some crucial functionality",
+            "tag": "mrbean",
+            "id": 2
+          },
+          {"text": "You are so nice I can't live without you <3", "tag": "like", "id": 1},
+          {"text": "I can't imagine a better team <3", "tag": "pinguin", "id": 1},
+          {"text": "The working with ... was so demotivating...", "tag": "seals", "id": 2},
+          {"text": "I love working with ...", "tag": "monkey", "id": 1},
+          {
+            "text": "We shouldn't get the story which is blocked by the one from the previous sprint",
+            "tag": "disappointment",
+            "id": 2
+          },
+          {"text": "I need vacations after that sprint", "tag": "panda", "id": 2},
+          {"text": "The DLs ignore me. I can't continue with stories", "tag": "kick", "id": 2},
+          {"text": "As many jenkins failures this sprint as drops in sea", "tag": "death", "id": 2},
+          {"text": "... we miss you.... ;<", "tag": "sombrero", "id": 2},
+          {"text": "... thanks for super KT session!", "tag": "batman", "id": 1},
+          {"text": "... thanks for supporting ...!", "tag": "support", "id": 1},
+          {"text": "Lets code more instead of this retro meeting", "tag": "holmes", "id": 2},
+          {"text": "... the Confluence Master!!", "tag": "agent", "id": 1},
+          {"text": "Improvement again?!", "tag": "nahi", "id": 2},
+          {"text": "The story was overestimated", "tag": "super", "id": 1},
+          {"text": "The story was underestimated", "tag": "weep", "id": 2},
+          {"text": "The current velocity is killing", "tag": "jumping", "id": 2}];
+        var randomIndex = Math.floor(Math.random() * jsonList.length);
+        var jsonObject = jsonList[randomIndex];
+        memeService.getGifsUrlsByQuery(jsonObject.tag, 1).then(function(urls) {
+          tile.gif_url = urls[0];
+          tile.text = jsonObject.text;
+          $rootScope.$broadcast('imageAdd', tile);
+        });
       }
     };
   }]);

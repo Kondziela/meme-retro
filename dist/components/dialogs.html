@@ -122,23 +122,24 @@
 		<tbody>
 		<tr>
 			<td align="right"><input class="filter-message" placeholder="Gif search term" name="gifname" type="text"
-                                     width="100%" ng-model="gifname"/></td>
+                                     width="100%" ng-model="gifname" ng-keyup="submitOnEnter($event, 'loadAndShowGifs', gifname)"/></td>
 			<td align="right"><input name="search" type="submit" value="Search" class="button" ng-click="loadAndShowGifs()"/></td>
 		</tr>
 		</tbody>
 	</table>
-	<table>
-		<tbody>
-        <tr ng-repeat="gifRow in gifs track by $index">
-            <td ng-repeat="gif in gifRow track by $index"><img height="100px" src={{gif.gif}} class={{gif.class}} ng-click="selectMeme(gif)"></td>
-        </tr>
-		</tbody>
-	</table>
+        <div align="center">
+            <span style="display: table" ng-repeat="gifRow in gifs track by $index">
+                <div class="div-popup our-css" ng-repeat="gif in gifRow track by $index">
+                    <img class="img-popup our-css {{gif.class}}" src={{gif.gif}} ng-click="selectMeme(gif)"></div>
+            </span>
+        </div>
+
 	<table>
 		<tbody>
 		<tr>
 			<td/>
 			<td align="right"><a ng-click="modalService.closeAll();">Cancel</a></td>
+            <td align="right"><a ng-click="findPreviousGifs();">Previous</a></td>
 			<td align="right"><a ng-click="findNextGifs();">Next</a></td>
 			<td align="right"><button class="button" ng-click="addGif(message)">Add Gif</button></td>
 		</tr>
@@ -147,13 +148,14 @@
   </span>
 </script>
 <script type="text/ng-template" id="memeSearch">
+    <div class="scrollable-our">
     <h1>Search Meme</h1>
     <span>
 	<table>
 		<tbody>
 		<tr>
 			<td><input class="filter-message-our" placeholder="Meme search term" name="gifname" type="text"
-                                     width="100%" ng-model="gifname"/></td>
+                                     width="100%" ng-model="gifname" ng-keyup="submitOnEnter($event, 'loadAndShowMemes', gifname)"/></td>
 			<td><input name="search" type="submit" value="Search" class="button filter-message-our" ng-click="loadAndShowMemes()"/></td>
 		</tr>
 		<tr>
@@ -166,22 +168,22 @@
         </tr>
 		</tbody>
 	</table>
-	<table>
-		<tbody>
-        <tr ng-repeat="gifRow in gifs track by $index">
-            <td ng-repeat="gif in gifRow track by $index"><img height="100px" src={{gif.gif}} class={{gif.class}} ng-click="selectMeme(gif)"></td>
-        </tr>
-		</tbody>
-	</table>
+        <div align="center">
+            <span style="display: table" ng-repeat="gifRow in gifs track by $index">
+                <div class="div-popup our-css" ng-repeat="gif in gifRow track by $index">
+                    <img class="img-popup our-css {{gif.class}}" src={{gif.gif}} ng-click="selectMeme(gif)"></div>
+            </span>
+        </div>
 	<table>
 		<tbody>
 		<tr>
-			<td/>
 			<td align="right"><a ng-click="modalService.closeAll();">Cancel</a></td>
+            <td align="right"><a ng-click="findPreviousMemes();">Previous</a></td>
 			<td align="right"><a ng-click="findNextMemes();">Next</a></td>
 			<td align="right"><button class="button" ng-click="addMeme(message)">Add Meme</button></td>
 		</tr>
 		</tbody>
 	</table>
   </span>
+        </div>
 </script>
