@@ -44,7 +44,7 @@
     "tiny-lr": "latest"
   },
   "dependencies": {
-    "angular": "^1.4.9",
+    "angular": "^1.8.0",
     "angular-aria": "^1.5.5",
     "angular-sanitize": "^1.5.5",
     "angularfire": "^2.3.0",
